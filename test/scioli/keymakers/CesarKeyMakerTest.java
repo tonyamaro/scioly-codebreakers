@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import scioli.languages.Language;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class CesarKeyMakerTest {
 

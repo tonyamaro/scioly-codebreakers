@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import scioli.Cypher;
 import scioli.Encoder;
 import scioli.keymakers.CesarKeyMaker;
-import scioli.keymakers.RandomKeyMaker;
 import scioli.languages.Language;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
@@ -19,7 +18,6 @@ class AristocratFormatterTest {
                 .encode(Language.ENGLISH,
                         "This is just a test.",
                         new CesarKeyMaker(5));
-
 
 
         assertThat(

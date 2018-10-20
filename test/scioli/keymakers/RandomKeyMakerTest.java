@@ -1,7 +1,6 @@
 package scioli.keymakers;
 
 import org.junit.jupiter.api.Test;
-import scioli.Runner;
 import scioli.languages.English;
 import scioli.languages.Language;
 
@@ -18,7 +17,7 @@ class RandomKeyMakerTest {
 
         IntStream.range(0, 100).forEach(n -> {
             final RandomKeyMaker a = new RandomKeyMaker();
-            final String key =  a.makeKey(english);
+            final String key = a.makeKey(english);
             assertThat(key).isNotNull();
             assertThat(key.length()).isEqualTo(26);
             for (int i = 0; i < key.length(); i++) {
