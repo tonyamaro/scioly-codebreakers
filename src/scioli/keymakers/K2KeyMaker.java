@@ -3,6 +3,9 @@ package scioli.keymakers;
 import scioli.Utils;
 import scioli.languages.Language;
 
+import java.util.Optional;
+import java.util.stream.IntStream;
+
 public class K2KeyMaker implements KeyMaker {
 
     private String keyword;
@@ -21,13 +24,16 @@ public class K2KeyMaker implements KeyMaker {
         final int l = language.length();
         final int insertPoint = calculateInsertPoint(l);
 
-        for (int tries = 0; tries < l; tries++) {
-            int split = (l - insertPoint + tries) % l;
-            final String key = keyBeforeRotation.substring(split) + keyBeforeRotation.substring(0, split);
-            if (!Utils.isLeaky(key, language)) {
-                return key;
-            }
+        final Optional<String> key = IntStream.range(0, l)
+                .map(i -> (l - insertPoint + i) % l)
+                .mapToObj(split -> keyBeforeRotation.substring(split)
+                        + keyBeforeRotation.substring(0, split))
+                .filter(aKey -> !Utils.isLeaky(aKey, language))
+                .findAny();
+        if (key.isPresent()) {
+            return key.get();
         }
+
         throw new IllegalStateException(String.format("Cannot find valid K1 for keyword '%s'.", this.getKeyword()));
 
     }

@@ -11,7 +11,6 @@ import static org.mockito.Mockito.when;
 
 class K2KeyMakerTest {
 
-
     @Test
     void makeKeyWithShift4English() {
         final K2KeyMaker mockK2KeyMaker = mock(K2KeyMaker.class);
@@ -59,10 +58,12 @@ class K2KeyMakerTest {
             final String key = a.makeKey(Language.ENGLISH);
             assertThat(key).isNotNull();
             assertThat(key.length()).isEqualTo(Language.ENGLISH.length());
-            IntStream.range(0, key.length()).forEach(i -> {
-                assertThat(key).containsOnlyOnce(Language.ENGLISH.getAlphabet().charAt(i) + "");
-                assertThat(key.charAt(i)).isNotEqualTo(Language.ENGLISH.getAlphabet().charAt(i));
-            });
+            IntStream.range(0, key.length())
+                    .parallel()
+                    .forEach(i -> {
+                        assertThat(key).containsOnlyOnce(Language.ENGLISH.getAlphabet().charAt(i) + "");
+                        assertThat(key.charAt(i)).isNotEqualTo(Language.ENGLISH.getAlphabet().charAt(i));
+                    });
         });
     }
 
@@ -73,10 +74,12 @@ class K2KeyMakerTest {
             final String key = a.makeKey(Language.SPANISH);
             assertThat(key).isNotNull();
             assertThat(key.length()).isEqualTo(Language.SPANISH.length());
-            IntStream.range(0, key.length()).forEach(i -> {
-                assertThat(key).containsOnlyOnce(Language.SPANISH.getAlphabet().charAt(i) + "");
-                assertThat(key.charAt(i)).isNotEqualTo(Language.SPANISH.getAlphabet().charAt(i));
-            });
+            IntStream.range(0, key.length())
+                    .parallel()
+                    .forEach(i -> {
+                        assertThat(key).containsOnlyOnce(Language.SPANISH.getAlphabet().charAt(i) + "");
+                        assertThat(key.charAt(i)).isNotEqualTo(Language.SPANISH.getAlphabet().charAt(i));
+                    });
         });
     }
 }
