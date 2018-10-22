@@ -6,7 +6,7 @@ import scioli.languages.Language;
 public class Encoder {
 
 
-    public Cypher encode(final Language language, final String clearText, final KeyMaker keyMaker){
+    public Cipher encode(final Language language, final String clearText, final KeyMaker keyMaker){
 
         final String key = keyMaker.makeKey(language);
 
@@ -25,7 +25,7 @@ public class Encoder {
                 })
                 .forEach(c -> encodedBuilder.append(c));
 
-        return new Cypher(language, clearText, key, encodedBuilder.toString(), frequency);
+        return new Cipher(language, clearText, key, encodedBuilder.toString(), frequency);
     }
 
 

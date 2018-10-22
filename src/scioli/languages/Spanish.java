@@ -1,13 +1,13 @@
 package scioli.languages;
 
-public class English implements Language {
+public class Spanish implements Language {
     @Override
     public String getAlphabet() {
-        return "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        return "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
     }
 
     @Override
     public int length() {
-        return 26;
+        return 27;
     }
 }

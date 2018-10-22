@@ -2,7 +2,7 @@ package scioli;
 
 import scioli.languages.Language;
 
-public class Cypher {
+public class Cipher {
 
     private Language language;
     private String phrase;
@@ -11,7 +11,7 @@ public class Cypher {
     private int[] frequencyTable;
 
 
-    public Cypher(Language language, String phrase, String key, String encoded, int[] frequencyTable) {
+    public Cipher(Language language, String phrase, String key, String encoded, int[] frequencyTable) {
         this.language = language;
         this.phrase = phrase;
         this.key = key;

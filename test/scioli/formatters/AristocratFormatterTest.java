@@ -1,7 +1,7 @@
 package scioli.formatters;
 
 import org.junit.jupiter.api.Test;
-import scioli.Cypher;
+import scioli.Cipher;
 import scioli.Encoder;
 import scioli.keymakers.CesarKeyMaker;
 import scioli.languages.Language;
@@ -14,7 +14,7 @@ class AristocratFormatterTest {
     void format() {
 
 
-        final Cypher cypher = new Encoder()
+        final Cipher cipher = new Encoder()
                 .encode(Language.ENGLISH,
                         "This is just a test.",
                         new CesarKeyMaker(5));
@@ -22,10 +22,10 @@ class AristocratFormatterTest {
 
         assertThat(
 
-                new AristocratFormatter().format(cypher)).isEqualTo(
+                new AristocratFormatter().format(cipher)).isEqualTo(
 
                 "\n" +
-                        "size: 20\n" +
+                        "length: 20\n" +
                         "\n" +
                         "\n" +
                         "YMNX NX OZXY F YJXY.\n" +

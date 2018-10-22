@@ -6,5 +6,4 @@ public interface KeyMaker {
 
     String makeKey(final Language language);
 
-
 }
