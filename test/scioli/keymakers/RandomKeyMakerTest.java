@@ -17,7 +17,7 @@ class RandomKeyMakerTest {
 
         IntStream.range(0, 100).forEach(n -> {
             final RandomKeyMaker a = new RandomKeyMaker();
-            final String key = a.makeKey(english);
+            final String key = a.makeKey(english).getCypher();
             assertThat(key).isNotNull();
             assertThat(key.length()).isEqualTo(26);
             for (int i = 0; i < key.length(); i++) {

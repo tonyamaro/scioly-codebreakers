@@ -10,7 +10,8 @@ class CesarKeyMakerTest {
     @Test
     void makeKey() {
 
-        assertThat(new CesarKeyMaker(5).makeKey(Language.ENGLISH)).isEqualTo("FGHIJKLMNOPQRSTUVWXYZABCDE");
+        assertThat(new CesarKeyMaker(5).makeKey(Language.ENGLISH))
+                .isEqualTo(new Key(Language.ENGLISH.getAlphabet(), "FGHIJKLMNOPQRSTUVWXYZABCDE"));
 
     }
 }

@@ -1,7 +1,7 @@
 package scioli;
 
 import scioli.formatters.Formatter;
-import scioli.keymakers.K2KeyMaker;
+import scioli.keymakers.KnKeyMaker;
 import scioli.keymakers.RandomKeyMaker;
 import scioli.languages.Language;
 
@@ -20,7 +20,7 @@ public class Runner {
         final Cipher key1Cipher = new Encoder()
                 .encode(Language.ENGLISH,
                         "This is just a test.",
-                        new K2KeyMaker("AMAZING"));
+                        new KnKeyMaker(KnKeyMaker.KModel.K2, "AMAZING"));
         System.out.println(Formatter.ARISTOCRAT.format(key1Cipher));
         System.out.println(Formatter.PATRISTOCRAT.format(key1Cipher));
 

@@ -4,6 +4,6 @@ import scioli.languages.Language;
 
 public interface KeyMaker {
 
-    String makeKey(final Language language);
+    Key makeKey(final Language language);
 
 }

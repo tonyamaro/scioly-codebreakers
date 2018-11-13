@@ -7,7 +7,7 @@ import java.util.stream.IntStream;
 public class RandomKeyMaker implements KeyMaker {
 
     @Override
-    public String makeKey(final Language language) {
+    public Key makeKey(final Language language) {
         final char[] letters = language.getAlphabet().toCharArray();
         IntStream.range(0, letters.length)
                 .forEach(i -> {
@@ -19,6 +19,6 @@ public class RandomKeyMaker implements KeyMaker {
                         letters[i] = swapChar;
                     }
                 });
-        return new String(letters);
+        return new Key(language.getAlphabet(), new String(letters));
     }
 }
