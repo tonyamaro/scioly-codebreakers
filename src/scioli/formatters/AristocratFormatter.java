@@ -7,7 +7,7 @@ public class AristocratFormatter implements Formatter {
     @Override
     public String format(final Cipher cipher) {
         final StringBuilder s = new StringBuilder();
-        s.append("\nlength: " + cipher.getEncoded().length());
+        s.append("\nAristocrat " + cipher.getKey().getName() + " length " + cipher.getEncoded().length());
         s.append("\n\n");
 
         s.append("\n" + cipher.getEncoded());

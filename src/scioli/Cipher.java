@@ -1,17 +1,18 @@
 package scioli;
 
+import scioli.keymakers.Key;
 import scioli.languages.Language;
 
 public class Cipher {
 
     private Language language;
     private String phrase;
-    private String key = "";
-    private String encoded = "";
+    private Key key;
+    private String encoded ;
     private int[] frequencyTable;
 
 
-    public Cipher(Language language, String phrase, String key, String encoded, int[] frequencyTable) {
+    public Cipher(Language language, String phrase, Key key, String encoded, int[] frequencyTable) {
         this.language = language;
         this.phrase = phrase;
         this.key = key;
@@ -27,7 +28,7 @@ public class Cipher {
         return phrase;
     }
 
-    public String getKey() {
+    public Key getKey() {
         return key;
     }
 

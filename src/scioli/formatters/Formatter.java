@@ -4,8 +4,8 @@ import scioli.Cipher;
 
 public interface Formatter {
 
-    public static Formatter ARISTOCRAT = new AristocratFormatter();
-    public static Formatter PATRISTOCRAT = new PatristocratFormatter();
+    Formatter ARISTOCRAT = new AristocratFormatter();
+    Formatter PATRISTOCRAT = new PatristocratFormatter();
 
     String format(final Cipher cipher);
 }

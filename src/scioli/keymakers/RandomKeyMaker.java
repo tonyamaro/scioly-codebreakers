@@ -19,6 +19,6 @@ public class RandomKeyMaker implements KeyMaker {
                         letters[i] = swapChar;
                     }
                 });
-        return new Key(language.getAlphabet(), new String(letters));
+        return new Key("Random", language.getAlphabet(), new String(letters));
     }
 }

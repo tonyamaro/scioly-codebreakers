@@ -10,8 +10,9 @@ public class Key {
     private String plain;
     private String cypher;
     private Map<Character, Character> conversionMap;
+    private String name;
 
-    public Key(final String plain, final String cypher) {
+    public Key(final String name, final String plain, final String cypher) {
 
         if(plain == null || cypher == null){
             throw new IllegalArgumentException( String.format("plain [%s] and cypher [%s] are required", plain, cypher));
@@ -26,6 +27,7 @@ public class Key {
                 throw new IllegalArgumentException( String.format("plain [%s] has same character [%s] twice", plain, previousValue));
             }
         }
+        this.name = name;
         this.plain = plain;
         this.cypher = cypher;
 
@@ -40,11 +42,16 @@ public class Key {
 
 
     public boolean isLeaky() {
-        return this.conversionMap.keySet().stream()
-                .anyMatch(c->this.conversionMap.get(c)==c);
+        final boolean leaky = this.conversionMap.keySet().stream()
+                .anyMatch(c -> this.conversionMap.get(c) == c);
+        return leaky;
     }
 
-    String getPlain() {
+    public String getName() {
+        return name;
+    }
+
+    public String getPlain() {
         return plain;
     }
 

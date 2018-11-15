@@ -15,6 +15,6 @@ public class CesarKeyMaker implements KeyMaker {
 
     @Override
     public Key makeKey(final Language language) {
-        return new Key(language.getAlphabet(), language.getAlphabet().substring(shift) + language.getAlphabet().substring(0, shift));
+        return new Key("Cesar", language.getAlphabet(), language.getAlphabet().substring(shift) + language.getAlphabet().substring(0, shift));
     }
 }

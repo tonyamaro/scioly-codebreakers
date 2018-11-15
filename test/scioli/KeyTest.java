@@ -9,7 +9,7 @@ class KeyTest {
 
     @Test
     void test() {
-        final Key key = new Key("ABCD", "WXYZ");
+        final Key key = new Key("Test", "ABCD", "WXYZ");
         assertThat(key.convert("DAB")).isEqualTo("ZWX");
 
     }

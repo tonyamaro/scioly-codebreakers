@@ -44,7 +44,7 @@ public class KnKeyMaker implements KeyMaker {
     public Key makeKey(final Language language) {
 
         final int insertPoint = calculateInsertPoint(language.length());
-        final int anotherInsertPoint = insertPoint + calculateRangeBetweenInsertPoints(language.length()) ;
+        final int anotherInsertPoint = (insertPoint + calculateRangeBetweenInsertPoints(language.length() - 1) + 1) % language.length();
 
 
         for (int i = 0; i < language.length(); i++) {
@@ -54,18 +54,18 @@ public class KnKeyMaker implements KeyMaker {
             switch (this.kModel) {
 
                 case K1:
-                    key = new Key(sequenceWithKeyword, language.getAlphabet());
+                    key = new Key("K1", sequenceWithKeyword, language.getAlphabet());
                     break;
                 case K2:
-                    key = new Key(language.getAlphabet(), sequenceWithKeyword);
+                    key = new Key("K2", language.getAlphabet(), sequenceWithKeyword);
                     break;
                 case K3:
                     final String anotherSequenceWithKeyword = KnMakerUtil.createSequenceWithKeyword(getKeyword1(), language, anotherInsertPoint - i);
-                    key = new Key(sequenceWithKeyword, anotherSequenceWithKeyword);
+                    key = new Key("K3", sequenceWithKeyword, anotherSequenceWithKeyword);
                     break;
                 case K4:
                     final String sequenceWithKeyword2 = KnMakerUtil.createSequenceWithKeyword(getKeyword2(), language, anotherInsertPoint - i);
-                    key = new Key(sequenceWithKeyword, sequenceWithKeyword2);
+                    key = new Key("K4", sequenceWithKeyword, sequenceWithKeyword2);
                     break;
                 default:
                     throw new IllegalStateException(String.format("%s not implemented", kModel));

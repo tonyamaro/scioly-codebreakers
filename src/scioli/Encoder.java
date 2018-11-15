@@ -17,16 +17,16 @@ public class Encoder {
                 .chars()
                 .mapToObj(c -> (char) c)
                 .map(c -> {
-                    final int i = language.getAlphabet().indexOf(c);
+                    final int i = key.getPlain().indexOf(c);
                     if (i < 0)
                         return c;
                     final char encodedC = key.getCypher().charAt(i);
-                    frequency[language.getAlphabet().indexOf(encodedC)]++;
+                    frequency[key.getPlain().indexOf(encodedC)]++;
                     return encodedC;
                 })
                 .forEach(c -> encodedBuilder.append(c));
 
-        return new Cipher(language, clearText, key.getCypher(), encodedBuilder.toString(), frequency);
+        return new Cipher(language, clearText, key, encodedBuilder.toString(), frequency);
     }
 
 

@@ -11,7 +11,7 @@ class CesarKeyMakerTest {
     void makeKey() {
 
         assertThat(new CesarKeyMaker(5).makeKey(Language.ENGLISH))
-                .isEqualTo(new Key(Language.ENGLISH.getAlphabet(), "FGHIJKLMNOPQRSTUVWXYZABCDE"));
+                .isEqualTo(new Key("Cesar", Language.ENGLISH.getAlphabet(), "FGHIJKLMNOPQRSTUVWXYZABCDE"));
 
     }
 }
