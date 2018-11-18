@@ -8,9 +8,15 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 class KeyTest {
 
     @Test
-    void test() {
+    void testEncode() {
         final Key key = new Key("Test", "ABCD", "WXYZ");
-        assertThat(key.convert("DAB")).isEqualTo("ZWX");
+        assertThat(key.encode("DAB")).isEqualTo("ZWX");
+    }
+
+    @Test
+    void testDecode() {
+        final Key key = new Key("Test", "ABCD", "WXYZ");
+        assertThat(key.decode("ZWX")).isEqualTo("DAB");
 
     }
 

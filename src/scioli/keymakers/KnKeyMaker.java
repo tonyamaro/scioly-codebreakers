@@ -5,7 +5,7 @@ import scioli.languages.Language;
 public class KnKeyMaker implements KeyMaker {
 
 
-    public static enum KModel {
+    public enum KModel {
         K1(1), K2(1), K3(1), K4(2);
 
         private int numberOfKeywords;
@@ -32,7 +32,7 @@ public class KnKeyMaker implements KeyMaker {
     }
 
     public KnKeyMaker(final KModel kModel, final String keyword1, final String keyword2) {
-        if (kModel.getNumberOfKeywords() != 1 || keyword1 == null || keyword2 == null) {
+        if (kModel.getNumberOfKeywords() != 2 || keyword1 == null || keyword2 == null) {
             throw new IllegalArgumentException(String.format("model %s requires two keywords.", kModel));
         }
         this.kModel = kModel;
@@ -46,32 +46,45 @@ public class KnKeyMaker implements KeyMaker {
         final int insertPoint = calculateInsertPoint(language.length());
         final int anotherInsertPoint = (insertPoint + calculateRangeBetweenInsertPoints(language.length() - 1) + 1) % language.length();
 
-
-        for (int i = 0; i < language.length(); i++) {
-            final String sequenceWithKeyword = KnMakerUtil.createSequenceWithKeyword(getKeyword1(), language, insertPoint - i);
-
-            Key key;
-            switch (this.kModel) {
-
-                case K1:
-                    key = new Key("K1", sequenceWithKeyword, language.getAlphabet());
-                    break;
-                case K2:
-                    key = new Key("K2", language.getAlphabet(), sequenceWithKeyword);
-                    break;
-                case K3:
-                    final String anotherSequenceWithKeyword = KnMakerUtil.createSequenceWithKeyword(getKeyword1(), language, anotherInsertPoint - i);
-                    key = new Key("K3", sequenceWithKeyword, anotherSequenceWithKeyword);
-                    break;
-                case K4:
-                    final String sequenceWithKeyword2 = KnMakerUtil.createSequenceWithKeyword(getKeyword2(), language, anotherInsertPoint - i);
-                    key = new Key("K4", sequenceWithKeyword, sequenceWithKeyword2);
-                    break;
-                default:
-                    throw new IllegalStateException(String.format("%s not implemented", kModel));
+        if (this.kModel == KModel.K4) {
+            for (int i = 0; i < language.length(); i++) {
+                for (int j = 0; j < language.length(); j++) {
+                    final String sequenceWithKeyword = KnMakerUtil.createSequenceWithKeyword(getKeyword1(), language, insertPoint - i);
+                    final String sequenceWithKeyword2 = KnMakerUtil.createSequenceWithKeyword(getKeyword2(), language, anotherInsertPoint - j);
+                    final Key key = new Key("K4", sequenceWithKeyword, sequenceWithKeyword2);
+                    if (!key.isLeaky()) {
+                        return key;
+                    }
+                }
             }
-            if (!key.isLeaky()) {
-                return key;
+        } else {
+            for (int i = 0; i < language.length(); i++) {
+                final String sequenceWithKeyword = KnMakerUtil.createSequenceWithKeyword(getKeyword1(), language, insertPoint - i);
+
+                Key key;
+                switch (this.kModel) {
+
+                    case K1:
+                        key = new Key("K1", sequenceWithKeyword, language.getAlphabet());
+                        break;
+                    case K2:
+                        key = new Key("K2", language.getAlphabet(), sequenceWithKeyword);
+                        break;
+                    case K3:
+                        final String anotherSequenceWithKeyword = KnMakerUtil.createSequenceWithKeyword(getKeyword1(), language, anotherInsertPoint - i);
+                        key = new Key("K3", sequenceWithKeyword, anotherSequenceWithKeyword);
+                        break;
+//                    case K4:
+//                        final String sequenceWithKeyword2 = KnMakerUtil.createSequenceWithKeyword(getKeyword2(), language, anotherInsertPoint - i);
+//                        key = new Key("K4", sequenceWithKeyword, sequenceWithKeyword2);
+//                        break;
+                    default:
+                        throw new IllegalStateException(String.format("%s not implemented", kModel));
+                }
+
+                if (!key.isLeaky()) {
+                    return key;
+                }
             }
         }
 
@@ -79,7 +92,7 @@ public class KnKeyMaker implements KeyMaker {
                 this.kModel,
                 this.kModel.getNumberOfKeywords() == 1 ? "" : "s",
                 this.getKeyword1(),
-                this.kModel.getNumberOfKeywords() == 1 ? "" : " and '" + keyword2 + "'"
+                this.kModel.getNumberOfKeywords() == 1 ? "" : " and '" + this.getKeyword2() + "'"
         ));
 
     }

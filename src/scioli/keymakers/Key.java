@@ -3,28 +3,35 @@ package scioli.keymakers;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class Key {
 
+    private String name;
     private String plain;
     private String cypher;
-    private Map<Character, Character> conversionMap;
-    private String name;
+    private Map<Character, Character> encoderMap;
+    private Map<Character, Character> decoderMap;
 
     public Key(final String name, final String plain, final String cypher) {
 
-        if(plain == null || cypher == null){
-            throw new IllegalArgumentException( String.format("plain [%s] and cypher [%s] are required", plain, cypher));
+        if (plain == null || cypher == null) {
+            throw new IllegalArgumentException(String.format("plain [%s] and cypher [%s] are required", plain, cypher));
         }
-        if(plain.length() != cypher.length()){
-            throw new IllegalArgumentException( String.format("plain [%s] and cypher [%s] should have same length", plain, cypher));
+        if (plain.length() != cypher.length()) {
+            throw new IllegalArgumentException(String.format("plain [%s] and cypher [%s] should have same length", plain, cypher));
         }
-        conversionMap = new HashMap<>();
-        for(int i = 0; i< plain.length(); i++){
-            final Character previousValue = conversionMap.put(plain.charAt(i), cypher.charAt(i));
-            if(previousValue != null){
-                throw new IllegalArgumentException( String.format("plain [%s] has same character [%s] twice", plain, previousValue));
+        encoderMap = new HashMap<>();
+        decoderMap = new HashMap<>();
+        for (int i = 0; i < plain.length(); i++) {
+            Character previousValue = encoderMap.put(plain.charAt(i), cypher.charAt(i));
+            if (previousValue != null) {
+                throw new IllegalArgumentException(String.format("plain [%s] has same character [%s] twice", plain, previousValue));
+            }
+            previousValue = decoderMap.put(cypher.charAt(i), plain.charAt(i));
+            if (previousValue != null) {
+                throw new IllegalArgumentException(String.format("cypher [%s] has same character [%s] twice", cypher, previousValue));
             }
         }
         this.name = name;
@@ -33,29 +40,56 @@ public class Key {
 
     }
 
-    public String convert(final String text){
-        return  text.chars()
+    public String encode(final String plainText) {
+        return plainText.toUpperCase()
+                .chars()
                 .mapToObj(c -> (char) c)
-                .map(c -> conversionMap.get(c) + "")
+                .map(c -> encoderMap.getOrDefault(c, c))
+                .map(String::valueOf)
                 .collect(Collectors.joining());
     }
 
 
+    public String decode(final String encodedText) {
+        return encodedText.toUpperCase()
+                .chars()
+                .mapToObj(c -> (char) c)
+                .map(c -> decoderMap.getOrDefault(c, c))
+                .map(String::valueOf)
+                .collect(Collectors.joining());
+    }
+
+
+    public int[] calculateFrequency(final String plainText) {
+        final String encodedText = this.encode(plainText);
+        final int[] frequency = new int[this.cypher.length()];
+        encodedText.toUpperCase()
+                .chars()
+                .mapToObj(c -> (char) c)
+                .map(c -> this.plain.indexOf(c))
+                .filter(i -> i > -1)
+                .forEach(i -> frequency[i]++);
+        return frequency;
+    }
+
+
     public boolean isLeaky() {
-        final boolean leaky = this.conversionMap.keySet().stream()
-                .anyMatch(c -> this.conversionMap.get(c) == c);
-        return leaky;
+        final Optional<Character> leaky = this.encoderMap.keySet().stream()
+                .filter(c -> this.encoderMap.get(c) == c)
+                .findFirst();
+
+        return leaky.isPresent();
     }
 
     public String getName() {
         return name;
     }
 
-    public String getPlain() {
+    String getPlain() {
         return plain;
     }
 
-    public String getCypher() {
+    String getCypher() {
         return cypher;
     }
 
